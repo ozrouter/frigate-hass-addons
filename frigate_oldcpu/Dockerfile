@@ -32,12 +32,12 @@ RUN cd /libedgetpu && dpkg-buildpackage -rfakeroot -us -uc -tc -b
 
 FROM base as build_tflite
 RUN git clone https://github.com/tensorflow/tensorflow.git
-RUN cd tensorflow && git checkout v2.5.0
+RUN cd tensorflow && git checkout v2.4.1
 RUN bash tensorflow/tensorflow/lite/tools/make/download_dependencies.sh
 RUN bash tensorflow/tensorflow/lite/tools/pip_package/build_pip_package_with_cmake.sh
 
 FROM blakeblackshear/frigate:0.9.4-${BUILD_ARCH}
 COPY --from=build_libedgetpu /libedgetpu1-max_16.0_amd64.deb /
 RUN dpkg -i /libedgetpu1-max_16.0_amd64.deb
-COPY --from=build_tflite /tensorflow/tensorflow/lite/tools/pip_package/gen/tflite_pip/python3/dist/tflite_runtime-2.5.0-cp38-cp38-linux_x86_64.whl /wheels/
-RUN pip3 install --force-reinstall --no-deps /wheels/tflite_runtime-2.5.0-cp38-cp38-linux_x86_64.whl
+COPY --from=build_tflite /tensorflow/tensorflow/lite/tools/pip_package/gen/tflite_pip/python3/dist/tflite_runtime-2.4.1-cp38-cp38-linux_x86_64.whl /wheels/
+RUN pip3 install --force-reinstall --no-deps /wheels/tflite_runtime-2.4.1-cp38-cp38-linux_x86_64.whl
