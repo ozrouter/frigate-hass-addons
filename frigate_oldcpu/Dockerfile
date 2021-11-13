@@ -32,7 +32,7 @@ RUN cd /libedgetpu && dpkg-buildpackage -rfakeroot -us -uc -tc -b
 
 FROM base as build_tflite
 RUN git clone https://github.com/tensorflow/tensorflow.git
-RUN cd tensorflow && git checkout v2.3.2
+RUN cd tensorflow && git checkout v2.5
 RUN bash tensorflow/tensorflow/lite/tools/make/download_dependencies.sh
 RUN bash tensorflow/tensorflow/lite/tools/pip_package/build_pip_package_with_cmake.sh
 
